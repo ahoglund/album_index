@@ -1,0 +1,11 @@
+<h1>Search Results</h1>
+<% if @search.results.any? %>
+<% @search.results.each do |result| %>
+  <%= result.song_title %>
+  <%= result.album_title %>
+  <%= result.artist_name %>
+<% end %>
+<% else %>
+  <p>No Results Found</p>
+  <%= link_to "Back", root_path %>
+<% end %>
