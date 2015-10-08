@@ -6,7 +6,7 @@ RSpec.feature "Search", type: :feature do
 
     let(:song) { create(:song) }
 
-    it "displays 'can't be blank'" do
+    it "displays blank warning" do
 
       visit search_new_path
 
@@ -16,6 +16,15 @@ RSpec.feature "Search", type: :feature do
     end
   end
 
+  context "search q too short" do
+
+    it "displays too short warning" do 
+      visit search_new_path
+      fill_in "search_q", with: "a"
+      click_button "Search Album Index"
+      expect(page).to have_content "is too short (minimum is 2 characters)" 
+    end   
+  end
 
   context "no results" do
 
@@ -35,7 +44,7 @@ RSpec.feature "Search", type: :feature do
     end
   end
 
-  context "for a single song" do
+  context "single song" do
     let(:song) { create(:song) }
 
     it "displays result" do
@@ -72,7 +81,7 @@ RSpec.feature "Search", type: :feature do
     end
   end
 
-  context "for a single artist" do
+  context "single artist" do
 
     let(:song) { create(:song) }
 
@@ -89,7 +98,7 @@ RSpec.feature "Search", type: :feature do
     end
   end
 
-  context "for a album title" do
+  context "album title" do
     
     let(:song) { create(:song) }
 
@@ -106,9 +115,23 @@ RSpec.feature "Search", type: :feature do
     end
   end
 
-  # context "for a song and album" do
-  # end
+  context "song and album" do
+    let(:song) { create(:song) }
 
-  # context "for a artist and album" do
+    it "displays result" do
+
+      visit search_new_path
+
+      fill_in "search_q", with: song.title + " " + song.album.title
+
+      click_button "Search Album Index"
+
+      expect(page).to have_content song.title
+      expect(page).to have_content song.album.title
+
+    end
+  end
+
+  # context "artist and album" do
   # end
 end

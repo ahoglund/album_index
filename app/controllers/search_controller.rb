@@ -5,7 +5,8 @@ class SearchController < ApplicationController
 	end
 
   def results
-  	build_search 
+  	build_search
+  	@q = search_params[:q]
   	render 'new' unless @search.save
   end
 

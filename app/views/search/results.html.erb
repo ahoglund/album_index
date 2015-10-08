@@ -1,10 +1,22 @@
 <h1>Search Results</h1>
 <% if @search.results.any? %>
-<% @search.results.each do |result| %>
-  <%= result.song_title %>
-  <%= result.album_title %>
-  <%= result.artist_name %>
-<% end %>
+<h4><%= @search.results.count %> Songs Found that match "<%= @q %>"</h4>
+<table class="table">
+	<thead>
+    <tr>
+      <th>Song Title</th>
+      <th>Album Title</th>
+      <th>Artist Name</th>
+    </tr>
+	</thead>
+	<% @search.results.each do |result| %>
+	<tr>
+	  <td><%= result.song_title %></td>
+	  <td><%= result.album_title %></td>
+	  <td><%= result.artist_name %></td>
+	</tr>
+	<% end %>
+</table>
 <% else %>
   <p>No Results Found</p>
   <%= link_to "Back", root_path %>
