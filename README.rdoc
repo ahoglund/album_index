@@ -1,28 +1,20 @@
-== README
-
-This README would normally document whatever steps are necessary to get the
-application up and running.
+== USAGE
 
 Things you may want to cover:
 
-* Ruby version
+* git clone https://github.com/ahoglund/album_index.git
 
-* System dependencies
+* cd album_index
 
-* Configuration
+* bundle install
 
-* Database creation
+* rake db:migrate
 
-* Database initialization
+* rake db:seed
 
-* How to run the test suite
+* rails c
 
-* Services (job queues, cache servers, search engines, etc.)
+* visit http://localhost:3000
 
-* Deployment instructions
+* search away...
 
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
