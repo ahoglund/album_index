@@ -27,7 +27,7 @@ class Search < ActiveType::Object
   end
 
   def search_targets
-    [:song, :album, :artist]
+    { song: :title, album: :title, artist: :name }
   end
 
   def words
@@ -39,8 +39,8 @@ class Search < ActiveType::Object
     words.each do |word|
       parts = []
       escaped_word = escape_for_like(word)
-      search_targets.each do |search_target|
-        parts << "#{search_target}::SearchFor".classify.constantize.new(escaped_word).bindings.to_sql
+      search_targets.each do |search_target, attribute|
+        parts << Searchable.new(search_target, escaped_word, attribute).bindings.to_sql
       end
       relation = relation.where(parts.join(' OR '))
     end

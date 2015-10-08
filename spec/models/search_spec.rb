@@ -83,8 +83,8 @@ RSpec.describe Search, type: :model do
   end
 
   describe "#search_targets" do 
-    it "returns an array" do 
-      expect(search.instance_eval {search_targets}).to be_a(Array)
+    it "returns an hash" do 
+      expect(search.instance_eval {search_targets}).to be_a(Hash)
     end
   end
 
