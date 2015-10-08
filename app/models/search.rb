@@ -1,45 +1,27 @@
-require 'ostruct'
-
 class Search < ActiveType::Object
 
   attribute :q
 
-  after_save :get_results
+  validates_presence_of :q
+
+  before_save :build_results
 
   attr_accessor :results
-
+  
   private
 
-  def get_results
-    @results = []
-    Song.find_each do |song|
-      if song.title =~ /#{q}/ || 
-      	 song.album.title =~ /#{q}/ || 
-      	 song.album.artist.name =~ /#{q}/
-        song_struct = OpenStruct.new(
-          song_title: song.title,
-          album_title: song.album.title,
-          artist_name: song.album.artist.name
-        )
-        @results << song_struct
-      end
+  def build_results
+    @results = [  ]
+    query.each do |song|
+      @results << search_result.new(song.title,song.album.title,song.album.artist.name)
     end
   end
 
-
-  def split_query
-    q.split(/\s+/)
+  def query
+    @query ||= Song.joins(album: :artist).where("songs.title LIKE '%#{q}%' OR albums.title LIKE '%#{q}%' OR artists.name LIKE '%#{q}%'")
   end
 
-  def matches
-    parts = []
-    bindings = []
-    split_query.each do |word|
-      escaped_word = escape_for_like_query(word)
-      parts << 'body LIKE ? OR title LIKE ?'
-      bindings << escaped_word
-      bindings << escaped_word
-    end
-    Note.where(parts.join(' OR '), *bindings)
+  def search_result
+    Struct.new(:song_title, :album_title, :artist_name)
   end
 end

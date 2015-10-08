@@ -5,7 +5,8 @@ class SearchController < ApplicationController
 	end
 
   def results
-  	build_search && @search.save
+  	build_search 
+  	render 'new' unless @search.save
   end
 
 	private

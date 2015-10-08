@@ -3,5 +3,4 @@ FactoryGirl.define do
     title "Around the World in a Day"
     artist
   end
-
 end

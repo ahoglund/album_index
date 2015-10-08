@@ -1,6 +1,21 @@
-require 'rails_helper'
+  require 'rails_helper'
 
 RSpec.feature "Search", type: :feature do
+
+  context "nothing filled in" do
+
+    let(:song) { create(:song) }
+
+    it "displays 'can't be blank'" do
+
+      visit search_new_path
+
+      click_button "Search Album Index"
+
+      expect(page).to have_content "can't be blank"
+    end
+  end
+
 
   context "no results" do
 
