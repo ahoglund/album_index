@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :album do
-    title "Around the World in a Day"
+    title Faker::Book.title
     artist
   end
 end

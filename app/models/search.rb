@@ -1,5 +1,14 @@
 class Search < ActiveType::Object
 
+  #
+  #  TODO: 
+  #
+  #  Add a factory method that takes arguments as to 
+  #  which models should be searched, and defaults to all.
+  #  this could provide an easy way to add a dropdown
+  #  to GUI to allow user to contrain query.
+  #
+
   attribute :q
 
   validates :q, presence: true,  length: { minimum: 2 }
@@ -7,30 +16,29 @@ class Search < ActiveType::Object
   before_save :build_results
 
   attr_accessor :results
-  
+
   private
 
   def build_results
     @results = []
-      query.each do |song|
-        @results << search_result.new(song.title,song.album.title,song.album.artist.name)
-      end
+    query.each do |song|
+      @results << search_result.new(song.title,song.album.title,song.album.artist.name)
+    end
   end
 
   def search_targets
-    [Song, Album, Artist]
+    [:song, :album, :artist]
   end
 
-  def split_query
-    @split_query ||= q.split(/\s+/)
+  def words
+    @words ||= q.split(/\s+/)
   end
 
   def query
-    parts = []
-    bindings = []
     relation = Song.joins(album: :artist)
-    split_query.each do |word|
-      escaped_word = escape_for_like_query(word)
+    words.each do |word|
+      parts = []
+      escaped_word = escape_for_like(word)
       search_targets.each do |search_target|
         parts << "#{search_target}::SearchFor".classify.constantize.new(escaped_word).bindings.to_sql
       end
@@ -39,7 +47,7 @@ class Search < ActiveType::Object
     relation
   end
 
-  def escape_for_like_query(phrase)
+  def escape_for_like(phrase)
     phrase.gsub("%", "\\%").gsub("_", "\\_")
   end
 
@@ -47,4 +55,3 @@ class Search < ActiveType::Object
     Struct.new(:song_title, :album_title, :artist_name)
   end
 end
-

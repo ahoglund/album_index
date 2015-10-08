@@ -1,5 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe Album, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  subject { create(:album) }
+  describe "#songs" do
+    it { is_expected.to respond_to(:songs) }
+  end
+
+  describe "#artist" do
+    it { is_expected.to respond_to(:artist) }
+  end
 end

@@ -63,21 +63,20 @@ RSpec.feature "Search", type: :feature do
 
   context "multiple songs" do
     before do
-      10.times { |i| create(:song, title: "Song #{i}") }
+      10.times { |i| create(:song, title: "song #{i}") }
     end
 
     it "displays result" do
 
       visit search_new_path
 
-      fill_in "search_q", with: "Song"
+      fill_in "search_q", with: "song"
 
       click_button "Search Album Index"
 
       Song.all.each do |song|
         expect(page).to have_content song.title
       end
-
     end
   end
 
@@ -132,6 +131,21 @@ RSpec.feature "Search", type: :feature do
     end
   end
 
-  # context "artist and album" do
-  # end
+  context "artist and album" do
+
+    let(:song) { create(:song) }
+
+    it "displays result" do
+
+      visit search_new_path
+
+      fill_in "search_q", with: song.album.artist.name + " " + song.album.title
+
+      click_button "Search Album Index"
+
+      expect(page).to have_content song.album.artist.name
+      expect(page).to have_content song.album.title
+
+    end
+  end
 end

@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :song do
-    title "Rasberry Beret"
+    title Faker::Hacker.adjective + " " + Faker::Hacker.noun + " " + Faker::Hacker.verb
     album
   end
 end

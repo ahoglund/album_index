@@ -10,6 +10,7 @@ RSpec.describe Search, type: :model do
 
   describe "#results" do
     context "single result" do
+
       let!(:song) { create(:song) }
 
       context "with result for song title search" do
@@ -78,6 +79,18 @@ RSpec.describe Search, type: :model do
           expect(search.results.first.artist_name).to eq song.album.artist.name
         end
       end
+    end
+  end
+
+  describe "#search_targets" do 
+    it "returns an array" do 
+      expect(search.instance_eval {search_targets}).to be_a(Array)
+    end
+  end
+
+  describe "#words" do 
+    it "returns an array" do 
+      expect(search.instance_eval {words}).to be_a(Array)
     end
   end
 end
