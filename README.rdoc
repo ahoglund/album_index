@@ -6,7 +6,7 @@ by any combination of song title, album title, and artist name.
 Minimum Requirements:
 * 500 songs, 100 albums, 10 artists
 * Responsive user interface
-● Return a list of songs with album and artist info
+* Return a list of songs with album and artist info
 * Avoid use of a off­the­shelf search libraries and platforms
 * Tests
 
