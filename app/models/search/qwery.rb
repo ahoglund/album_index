@@ -8,8 +8,8 @@ class Search::Qwery
 
   attr_accessor :relation
 
-  def initialize 
-  	@search_targets = []
+  def initialize
+    @search_targets = []
   end
 
   def add(search_target, attributes)
@@ -22,7 +22,7 @@ class Search::Qwery
   end
 
   private
-  
+
   def split_words(q)
     @words ||= q.split(/\s+/)
   end
