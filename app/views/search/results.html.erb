@@ -11,9 +11,9 @@
 	</thead>
 	<% @search.results.each do |result| %>
 	<tr>
-	  <td><%= result.song_title %></td>
-	  <td><%= result.album_title %></td>
-	  <td><%= result.artist_name %></td>
+	  <td><%= result[:song_title] %></td>
+	  <td><%= result[:album_title] %></td>
+	  <td><%= result[:artist_name] %></td>
 	</tr>
 	<% end %>
 </table>

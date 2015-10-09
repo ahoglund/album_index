@@ -13,45 +13,39 @@ class Search < ActiveType::Object
 
   validates :q, presence: true,  length: { minimum: 2 }
 
+  before_save :build_query
+  before_save :perform_query
   before_save :build_results
 
   attr_accessor :results
 
   private
 
+  def build_query
+    @query = Search::Qwery.build do # Query was conflicting with ActiveRecord, so hacked name...
+      add  :song,   attributes: :title
+      add  :album,  attributes: :title 
+      add  :artist, attributes: :name
+    end
+    @query.relation = Song.joins(album: :artist)
+  end
+
+  def perform_query
+    unless @performed_query = @query.perform(q)
+      errors.add(:q, "Error executing query")
+      false
+    end
+  end
+
   def build_results
     @results = []
-    query.each do |song|
-      @results << search_result.new(song.title,song.album.title,song.album.artist.name)
-    end
-  end
-
-  def search_targets
-    { song: :title, album: :title, artist: :name }
-  end
-
-  def words
-    @words ||= q.split(/\s+/)
-  end
-
-  def query
-    relation = Song.joins(album: :artist)
-    words.each do |word|
-      parts = []
-      escaped_word = escape_for_like(word)
-      search_targets.each do |search_target, attribute|
-        parts << Searchable.new(search_target, escaped_word, attribute).bindings.to_sql
+    @performed_query.each do |row|
+      @results << Search::Result.build do 
+        song_title  row.title
+        album_title row.album.title
+        artist_name row.album.artist.name 
       end
-      relation = relation.where(parts.join(' OR '))
     end
-    relation
-  end
-
-  def escape_for_like(phrase)
-    phrase.gsub("%", "\\%").gsub("_", "\\_")
-  end
-
-  def search_result
-    Struct.new(:song_title, :album_title, :artist_name)
+    @results
   end
 end

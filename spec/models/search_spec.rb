@@ -24,9 +24,9 @@ RSpec.describe Search, type: :model do
         end
 
         it "returns a single search result" do
-          expect(search.results.first.song_title).to eq song.title
-          expect(search.results.first.album_title).to eq song.album.title
-          expect(search.results.first.artist_name).to eq song.album.artist.name
+          expect(search.results.first[:song_title]).to eq song.title
+          expect(search.results.first[:album_title]).to eq song.album.title
+          expect(search.results.first[:artist_name]).to eq song.album.artist.name
         end
       end
 
@@ -37,9 +37,9 @@ RSpec.describe Search, type: :model do
         end
 
         it "returns a single search result" do
-          expect(search.results.first.song_title).to eq song.title
-          expect(search.results.first.album_title).to eq song.album.title
-          expect(search.results.first.artist_name).to eq song.album.artist.name
+          expect(search.results.first[:song_title]).to eq song.title
+          expect(search.results.first[:album_title]).to eq song.album.title
+          expect(search.results.first[:artist_name]).to eq song.album.artist.name
         end
       end
 
@@ -50,9 +50,9 @@ RSpec.describe Search, type: :model do
         end
 
         it "returns a single search result" do
-          expect(search.results.first.song_title).to eq song.title
-          expect(search.results.first.album_title).to eq song.album.title
-          expect(search.results.first.artist_name).to eq song.album.artist.name
+          expect(search.results.first[:song_title]).to eq song.title
+          expect(search.results.first[:album_title]).to eq song.album.title
+          expect(search.results.first[:artist_name]).to eq song.album.artist.name
         end
       end
 
@@ -63,8 +63,8 @@ RSpec.describe Search, type: :model do
         end
 
         it "returns a single search result" do
-          expect(search.results.first.song_title).to eq song.title
-          expect(search.results.first.album_title).to eq song.album.title
+          expect(search.results.first[:song_title]).to eq song.title
+          expect(search.results.first[:album_title]).to eq song.album.title
         end
       end
 
@@ -75,22 +75,10 @@ RSpec.describe Search, type: :model do
         end
 
         it "returns a single search result" do
-          expect(search.results.first.song_title).to eq song.title
-          expect(search.results.first.artist_name).to eq song.album.artist.name
+          expect(search.results.first[:song_title]).to eq song.title
+          expect(search.results.first[:artist_name]).to eq song.album.artist.name
         end
       end
-    end
-  end
-
-  describe "#search_targets" do 
-    it "returns an hash" do 
-      expect(search.instance_eval {search_targets}).to be_a(Hash)
-    end
-  end
-
-  describe "#words" do 
-    it "returns an array" do 
-      expect(search.instance_eval {words}).to be_a(Array)
     end
   end
 end

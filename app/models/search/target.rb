@@ -1,18 +1,18 @@
-class Searchable
-  def initialize(searchable, q, attribute)
+class Search::Target
+  def initialize(target,attribute,q)
     # TODO:
     # should enhance to take multiple attributes to
     # search against and build the bindings 
     # dynamically.
     @attribute = attribute
     @q = q
-    @searchable = searchable
+    @target = target
   end
 
   attr_accessor :q
 
   def query
-    @searchable.to_s.classify.constantize.where(bindings)
+    @target.to_s.classify.constantize.where(bindings)
   end
 
   def bindings
@@ -30,6 +30,6 @@ class Searchable
   end
 
   def table
-    @searchable.to_s.classify.constantize.arel_table
+    @target.to_s.classify.constantize.arel_table
   end
 end

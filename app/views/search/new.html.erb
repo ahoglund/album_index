@@ -1,7 +1,7 @@
 <div class="search-box col-md-6 col-md-offset-3">
-	<%= simple_form_for @search, url: search_results_path, method: :get do |f| %>
+  <%= simple_form_for @search, url: search_results_path, method: :get do |f| %>
 	  <%= f.error_notification %>
-	  <%= f.input :q, label: false, placeholder: "Search for Song/Album/Artist" %>
+	  <%= f.input :q, label: false, placeholder: "Search for Song/Album/Artist"%>
 	  <%= f.button :submit, "Search Album Index" %>
-	<% end %>
+  <% end %>
 </div>
