@@ -1,6 +1,25 @@
+== DESCRIPTION
+
+Design and implement a Rails app for a search interface to search a song database
+by any combination of song title, album title, and artist name.
+
+Minimum Requirements:
+* 500 songs, 100 albums, 10 artists
+* Responsive user interface
+● Return a list of songs with album and artist info
+* Avoid use of a off­the­shelf search libraries and platforms
+* Tests
+
+Open ended question we can talk about when you’re here: 
+
+* What if we had 100 million songs. How might you deal with this kind of search?
+
+Feel free to install gems. You should use bundler. Please upload the finished code to Github so we can
+review it
+
 == USAGE
 
-Things you may want to cover:
+Get it working:
 
 * git clone https://github.com/ahoglund/album_index.git
 
