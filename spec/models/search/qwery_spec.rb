@@ -34,7 +34,7 @@ RSpec.describe Search::Qwery do
     end
 
     it "returns an ActiveRecord::Relation" do 
-      query.relation = Song.joins(album: :artist)
+      query.base_query = Song.eager_load(album: :artist)
       expect(query.perform("Brotherhood")).to be_instance_of(Song::ActiveRecord_Relation)
     end
   end

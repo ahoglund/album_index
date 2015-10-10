@@ -6,18 +6,18 @@ class Search::Qwery
     search
   end
 
-  attr_accessor :relation
+  attr_accessor :base_query
 
   def initialize
     @search_targets = []
   end
 
-  def add(search_target, attributes)
-    @search_targets <<  { search_target: search_target }.merge(attributes)
+  def add(search_target, attribute)
+    @search_targets << { search_target: search_target }.merge(attribute)
   end
 
   def perform(q)
-    return false if @relation.nil?
+    return false if @base_query.nil?
     split_words(q) && query
   end
 
@@ -32,11 +32,11 @@ class Search::Qwery
       parts = []
       escaped_word = escape_for_like(word)
       @search_targets.each do |target|
-        parts << Search::Target.new(target[:search_target], target[:attributes], escaped_word).bindings.to_sql
+        parts << Search::Target.new(target[:search_target], target[:attribute]).like(escaped_word)
       end
-      @relation = @relation.where(parts.join(' OR '))
+      @base_query = @base_query.where(parts.join(' OR '))
     end
-    @relation
+    @base_query
   end
 
   def escape_for_like(phrase)
